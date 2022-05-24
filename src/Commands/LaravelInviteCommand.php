@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Rubik\LaravelInvite\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class LaravelInviteCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'laravel-invite';
 
     public $description = 'My command';
 
