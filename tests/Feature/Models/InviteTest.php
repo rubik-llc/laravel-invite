@@ -10,4 +10,3 @@ it('can create an Invite', function () {
 
     expect(Invite::expired()->count())->toBe(1);
 });
-

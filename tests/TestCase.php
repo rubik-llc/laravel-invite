@@ -13,7 +13,7 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn(string $modelName) => 'Rubik\\LaravelInvite\\Tests\\Factories\\' . class_basename($modelName) . 'Factory'
+            fn (string $modelName) => 'Rubik\\LaravelInvite\\Tests\\Factories\\' . class_basename($modelName) . 'Factory'
         );
     }
 
@@ -30,6 +30,5 @@ class TestCase extends Orchestra
 
         $migration = include __DIR__ . '/../database/migrations/create_invite_table.php.stub';
         $migration->up();
-
     }
 }

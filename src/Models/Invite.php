@@ -22,7 +22,7 @@ class Invite extends Model
 
 
     protected $appends = [
-        'state'
+        'state',
     ];
 
     /**
@@ -87,30 +87,38 @@ class Invite extends Model
 
     public function isExpired(): bool
     {
-        return !$this->isAccepted() && !$this->isDeclined() && Carbon::parse($this->expires_at) < Carbon::now();
+        return ! $this->isAccepted() && ! $this->isDeclined() && Carbon::parse($this->expires_at) < Carbon::now();
     }
 
     public function isAccepted(): bool
     {
-        return !!$this->accepted_at;
+        return ! ! $this->accepted_at;
     }
 
     public function isDeclined(): bool
     {
-        return !!$this->declined_at;
+        return ! ! $this->declined_at;
     }
 
     public function isPending(): bool
     {
-        return !$this->isAccepted() && !$this->isDeclined() && Carbon::parse($this->expires_at) >= Carbon::now();
+        return ! $this->isAccepted() && ! $this->isDeclined() && Carbon::parse($this->expires_at) >= Carbon::now();
     }
 
     protected function state(): Attribute
     {
-        if ($this->isAccepted()) return Attribute::make(get: fn() => State::ACCEPTED);
-        if ($this->isDeclined()) return Attribute::make(get: fn() => State::DECLINED);
-        if ($this->isExpired()) return Attribute::make(get: fn() => State::EXPIRED);
-        if ($this->isPending()) return Attribute::make(get: fn() => State::PENDING);
+        if ($this->isAccepted()) {
+            return Attribute::make(get: fn () => State::ACCEPTED);
+        }
+        if ($this->isDeclined()) {
+            return Attribute::make(get: fn () => State::DECLINED);
+        }
+        if ($this->isExpired()) {
+            return Attribute::make(get: fn () => State::EXPIRED);
+        }
+        if ($this->isPending()) {
+            return Attribute::make(get: fn () => State::PENDING);
+        }
 
         return Attribute::make(get: null);
     }
