@@ -8,12 +8,16 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('laravel_invite_table', function (Blueprint $table) {
-            $table->id();
-
-            // add fields
-
-            $table->timestamps();
+        Schema::create('invites', function (Blueprint $table) {
+           $table->id();
+           $table->string('email');
+           $table->string('token');
+           $table->timestamp('expires_at');
+           $table->timestamp('accepted_at')->nullable();
+           $table->timestamp('declined_at')->nullable();
+           $table->nullableUuidMorphs('invitable');
+           $table->nullableUuidMorphs('referable');
+           $table->timestamps();
         });
     }
 };
