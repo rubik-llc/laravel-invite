@@ -78,7 +78,7 @@ class InviteFactory extends Factory
      *
      * @return Factory
      */
-    public function notExpired(): Factory
+    public function pending(): Factory
     {
         return $this->state([
             'expires_at' => Carbon::tomorrow(),

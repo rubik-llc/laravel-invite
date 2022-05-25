@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rubik\LaravelInvite\Models;
 
 use Carbon\Carbon;
@@ -20,7 +22,6 @@ class Invite extends Model
 
     protected $guarded = [];
 
-
     protected $appends = [
         'state'
     ];
@@ -28,10 +29,10 @@ class Invite extends Model
     /**
      * Get all pending invites
      *
-     * @param $query
-     * @return mixed
+     * @param Builder $query
+     * @return Builder
      */
-    public function scopePending($query): Builder
+    public function scopePending(Builder $query): Builder
     {
         return $query->whereNull(['accepted_at', 'declined_at'])->whereDate('expires_at', '>=', Carbon::now());
     }
@@ -39,10 +40,10 @@ class Invite extends Model
     /**
      * Get all expired invites
      *
-     * @param $query
-     * @return mixed
+     * @param Builder $query
+     * @return Builder
      */
-    public function scopeExpired($query): Builder
+    public function scopeExpired(Builder $query): Builder
     {
         return $query->whereNull(['accepted_at', 'declined_at'])->whereDate('expires_at', '<', Carbon::now());
     }
@@ -50,10 +51,10 @@ class Invite extends Model
     /**
      * Get all accepted invites
      *
-     * @param $query
-     * @return mixed
+     * @param Builder $query
+     * @return Builder
      */
-    public function scopeAccepted($query): Builder
+    public function scopeAccepted(Builder $query): Builder
     {
         return $query->whereNotNull('accepted_at');
     }
@@ -61,10 +62,10 @@ class Invite extends Model
     /**
      * Get all declined invites
      *
-     * @param $query
-     * @return mixed
+     * @param Builder $query
+     * @return Builder
      */
-    public function scopeDeclined($query): Builder
+    public function scopeDeclined(Builder $query): Builder
     {
         return $query->whereNotNull('declined_at');
     }
@@ -105,13 +106,63 @@ class Invite extends Model
         return !$this->isAccepted() && !$this->isDeclined() && Carbon::parse($this->expires_at) >= Carbon::now();
     }
 
+//    public static function make(string $email, Model $referer = null, Model $invitee = null, int|string|Carbon $expire = null)
+//    {
+//        $user = User::find(1);
+//        Invite::to('email')->referer(auth()->user())->invitee($user)->expireIn()->expireAt()
+//
+//        self::create([
+//            'email' => $email,
+//            'token' => 'askjldhjaskhdajskldaskjdhasd',
+//            'expires_at' => Carbon::now(),
+//        ]);
+//    }
+
+
+    /**
+     * Accept an invitation
+     *
+     * @return bool
+     */
+    public function accept(): bool
+    {
+        if ($this->isPending()) {
+            $this->update([
+                'accepted_at' => Carbon::now(),
+            ]);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Decline an invitation
+     *
+     * @return bool
+     */
+    public function decline(): bool
+    {
+        if ($this->isPending()) {
+            $this->update([
+                'declined_at' => Carbon::now(),
+            ]);
+
+            return true;
+        }
+
+        return false;
+    }
+
     protected function state(): Attribute
     {
-        if ($this->isAccepted()) return Attribute::make(get: fn() => State::ACCEPTED);
-        if ($this->isDeclined()) return Attribute::make(get: fn() => State::DECLINED);
-        if ($this->isExpired()) return Attribute::make(get: fn() => State::EXPIRED);
-        if ($this->isPending()) return Attribute::make(get: fn() => State::PENDING);
-
-        return Attribute::make(get: null);
+        return match (true) {
+            $this->isAccepted() => Attribute::make(get: fn() => State::ACCEPTED),
+            $this->isDeclined() => Attribute::make(get: fn() => State::DECLINED),
+            $this->isExpired() => Attribute::make(get: fn() => State::EXPIRED),
+            $this->isPending() => Attribute::make(get: fn() => State::PENDING),
+            default => Attribute::make(get: null)
+        };
     }
 }
