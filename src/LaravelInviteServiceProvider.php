@@ -2,9 +2,9 @@
 
 namespace Rubik\LaravelInvite;
 
+use Rubik\LaravelInvite\Commands\LaravelInviteCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Rubik\LaravelInvite\Commands\LaravelInviteCommand;
 
 class LaravelInviteServiceProvider extends PackageServiceProvider
 {
