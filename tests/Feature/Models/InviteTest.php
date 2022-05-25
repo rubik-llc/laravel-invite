@@ -6,7 +6,6 @@ use Rubik\LaravelInvite\Tests\TestSupport\Models\TestModel;
 use Rubik\LaravelInvite\Tests\TestSupport\Models\User;
 use function Spatie\PestPluginTestTime\testTime;
 
-
 it('can return specific type of invites', function ($data, $value) {
     Invite::factory()->pending()->create();
     Invite::factory()->pending()->create();
@@ -34,10 +33,10 @@ it('can determine if an invite is pending', function ($data, $value) {
     expect($data->isPending())->toBe($value);
 })->with(
     [
-        'invite is pending' => [fn() => Invite::factory()->pending()->create(), true],
-        'invite is expired' => [fn() => Invite::factory()->expired()->create(), false],
-        'invite is accepted' => [fn() => Invite::factory()->accepted()->create(), false],
-        'invite is declined' => [fn() => Invite::factory()->declined()->create(), false],
+        'invite is pending' => [fn () => Invite::factory()->pending()->create(), true],
+        'invite is expired' => [fn () => Invite::factory()->expired()->create(), false],
+        'invite is accepted' => [fn () => Invite::factory()->accepted()->create(), false],
+        'invite is declined' => [fn () => Invite::factory()->declined()->create(), false],
     ]
 );
 
@@ -45,12 +44,12 @@ it('can determine if an invite is expired', function ($data, $value) {
     expect($data->isExpired())->toBe($value);
 })->with(
     [
-        'invite is pending' => [fn() => Invite::factory()->pending()->create(), false],
-        'invite is expired' => [fn() => Invite::factory()->expired()->create(), true],
-        'invite is accepted' => [fn() => Invite::factory()->accepted()->create(), false],
-        'invite is expired and accepted' => [fn() => Invite::factory()->expired()->accepted()->create(), false],
-        'invite is declined' => [fn() => Invite::factory()->declined()->create(), false],
-        'invite is expired and declined' => [fn() => Invite::factory()->expired()->declined()->create(), false],
+        'invite is pending' => [fn () => Invite::factory()->pending()->create(), false],
+        'invite is expired' => [fn () => Invite::factory()->expired()->create(), true],
+        'invite is accepted' => [fn () => Invite::factory()->accepted()->create(), false],
+        'invite is expired and accepted' => [fn () => Invite::factory()->expired()->accepted()->create(), false],
+        'invite is declined' => [fn () => Invite::factory()->declined()->create(), false],
+        'invite is expired and declined' => [fn () => Invite::factory()->expired()->declined()->create(), false],
 
     ]
 );
@@ -59,12 +58,12 @@ it('can determine if an invite is accepted', function ($data, $value) {
     expect($data->isAccepted())->toBe($value);
 })->with(
     [
-        'invite is pending' => [fn() => Invite::factory()->pending()->create(), false],
-        'invite is expired' => [fn() => Invite::factory()->expired()->create(), false],
-        'invite is accepted' => [fn() => Invite::factory()->accepted()->create(), true],
-        'invite is expired and accepted' => [fn() => Invite::factory()->expired()->accepted()->create(), true],
-        'invite is declined' => [fn() => Invite::factory()->declined()->create(), false],
-        'invite is expired and declined' => [fn() => Invite::factory()->expired()->declined()->create(), false],
+        'invite is pending' => [fn () => Invite::factory()->pending()->create(), false],
+        'invite is expired' => [fn () => Invite::factory()->expired()->create(), false],
+        'invite is accepted' => [fn () => Invite::factory()->accepted()->create(), true],
+        'invite is expired and accepted' => [fn () => Invite::factory()->expired()->accepted()->create(), true],
+        'invite is declined' => [fn () => Invite::factory()->declined()->create(), false],
+        'invite is expired and declined' => [fn () => Invite::factory()->expired()->declined()->create(), false],
     ]
 );
 
@@ -72,12 +71,12 @@ it('can determine if an invite is declined', function ($data, $value) {
     expect($data->isDeclined())->toBe($value);
 })->with(
     [
-        'invite is pending' => [fn() => Invite::factory()->pending()->create(), false],
-        'invite is expired' => [fn() => Invite::factory()->expired()->create(), false],
-        'invite is accepted' => [fn() => Invite::factory()->accepted()->create(), false],
-        'invite is expired and accepted' => [fn() => Invite::factory()->expired()->accepted()->create(), false],
-        'invite is declined' => [fn() => Invite::factory()->declined()->create(), true],
-        'invite is expired and declined' => [fn() => Invite::factory()->expired()->declined()->create(), true],
+        'invite is pending' => [fn () => Invite::factory()->pending()->create(), false],
+        'invite is expired' => [fn () => Invite::factory()->expired()->create(), false],
+        'invite is accepted' => [fn () => Invite::factory()->accepted()->create(), false],
+        'invite is expired and accepted' => [fn () => Invite::factory()->expired()->accepted()->create(), false],
+        'invite is declined' => [fn () => Invite::factory()->declined()->create(), true],
+        'invite is expired and declined' => [fn () => Invite::factory()->expired()->declined()->create(), true],
     ]
 );
 

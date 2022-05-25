@@ -23,7 +23,7 @@ class Invite extends Model
     protected $guarded = [];
 
     protected $appends = [
-        'state'
+        'state',
     ];
 
     /**
@@ -88,22 +88,22 @@ class Invite extends Model
 
     public function isExpired(): bool
     {
-        return !$this->isAccepted() && !$this->isDeclined() && Carbon::parse($this->expires_at) < Carbon::now();
+        return ! $this->isAccepted() && ! $this->isDeclined() && Carbon::parse($this->expires_at) < Carbon::now();
     }
 
     public function isAccepted(): bool
     {
-        return !!$this->accepted_at;
+        return ! ! $this->accepted_at;
     }
 
     public function isDeclined(): bool
     {
-        return !!$this->declined_at;
+        return ! ! $this->declined_at;
     }
 
     public function isPending(): bool
     {
-        return !$this->isAccepted() && !$this->isDeclined() && Carbon::parse($this->expires_at) >= Carbon::now();
+        return ! $this->isAccepted() && ! $this->isDeclined() && Carbon::parse($this->expires_at) >= Carbon::now();
     }
 
 //    public static function make(string $email, Model $referer = null, Model $invitee = null, int|string|Carbon $expire = null)
@@ -117,7 +117,6 @@ class Invite extends Model
 //            'expires_at' => Carbon::now(),
 //        ]);
 //    }
-
 
     /**
      * Accept an invitation
@@ -158,10 +157,10 @@ class Invite extends Model
     protected function state(): Attribute
     {
         return match (true) {
-            $this->isAccepted() => Attribute::make(get: fn() => State::ACCEPTED),
-            $this->isDeclined() => Attribute::make(get: fn() => State::DECLINED),
-            $this->isExpired() => Attribute::make(get: fn() => State::EXPIRED),
-            $this->isPending() => Attribute::make(get: fn() => State::PENDING),
+            $this->isAccepted() => Attribute::make(get: fn () => State::ACCEPTED),
+            $this->isDeclined() => Attribute::make(get: fn () => State::DECLINED),
+            $this->isExpired() => Attribute::make(get: fn () => State::EXPIRED),
+            $this->isPending() => Attribute::make(get: fn () => State::PENDING),
             default => Attribute::make(get: null)
         };
     }
