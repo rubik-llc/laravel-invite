@@ -6,5 +6,4 @@ namespace Rubik\LaravelInvite\Models;
 
 class InviteTest extends Invite
 {
-
 }
