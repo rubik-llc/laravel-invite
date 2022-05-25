@@ -106,7 +106,6 @@ it('can be accepted', function () {
     $invite->accept();
     expect($invite->refresh()->accepted_at)->toBe(Carbon::now()->format('Y-m-d H:i:s'));
 });
-<<<<<<< HEAD
 
 it('can be declined', function () {
     testTime()->freeze();
@@ -126,5 +125,3 @@ it('can be declined', function () {
 ////    dd(Invite::all());
 //
 //});
-=======
->>>>>>> 0362fc46c88ac92f42cda204969bf220c163014a
