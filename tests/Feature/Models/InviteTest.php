@@ -127,4 +127,3 @@ it('can be declined', function () {
 //
 ////    expect(\Rubik\LaravelInvite\Facades\LaravelInvite::to('test@gmail.com')->to)->toBe('test');
 //});
-

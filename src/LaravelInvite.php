@@ -28,7 +28,6 @@ class LaravelInvite
      */
     public Model|string $invitee;
 
-
     /**
      * @param string $email
      * @return LaravelInvite
@@ -103,7 +102,7 @@ class LaravelInvite
     {
         $inviteModel = config('invite.invite_model');
 
-        return !$inviteModel::pending()->where('email', $this->to)->exists();
+        return ! $inviteModel::pending()->where('email', $this->to)->exists();
     }
 
     /**
@@ -111,7 +110,9 @@ class LaravelInvite
      */
     public function getRefererKey(): mixed
     {
-        if (isset($this->referer)) return $this->referer->getKey();
+        if (isset($this->referer)) {
+            return $this->referer->getKey();
+        }
 
         return null;
     }
@@ -121,7 +122,9 @@ class LaravelInvite
      */
     public function getRefererClass(): ?string
     {
-        if (isset($this->referer)) return get_class($this->referer);
+        if (isset($this->referer)) {
+            return get_class($this->referer);
+        }
 
         return null;
     }
@@ -131,7 +134,9 @@ class LaravelInvite
      */
     public function getInviteeKey(): mixed
     {
-        if (isset($this->invitee) && $this->invitee instanceof Model) return $this->invitee->getKey();
+        if (isset($this->invitee) && $this->invitee instanceof Model) {
+            return $this->invitee->getKey();
+        }
 
         return null;
     }
@@ -141,7 +146,9 @@ class LaravelInvite
      */
     public function getInviteeClass(): ?string
     {
-        if (isset($this->invitee) && $this->invitee instanceof Model) return get_class($this->invitee);
+        if (isset($this->invitee) && $this->invitee instanceof Model) {
+            return get_class($this->invitee);
+        }
 
         return $this->invitee ?? null;
     }
@@ -153,11 +160,11 @@ class LaravelInvite
     {
         $inviteModel = config('invite.invite_model');
 
-        if (!isset($this->to)) {
+        if (! isset($this->to)) {
             throw new \Exception('You need to provide an email!');
         }
 
-        if (!$this->isValid()) {
+        if (! $this->isValid()) {
             throw new \Exception('Email is not valid!');
         }
 
@@ -171,5 +178,4 @@ class LaravelInvite
             'invitable_type' => $this->getInviteeClass(),
         ]);
     }
-
 }

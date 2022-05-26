@@ -152,5 +152,4 @@ class Invite extends Model
             default => Attribute::make(get: null)
         };
     }
-
 }
