@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'invite_model' => \Rubik\LaravelInvite\Models\InviteTest::class,
+    'invite_model' => \Rubik\LaravelInvite\Models\Invite::class,
 
     'delete_on_decline' => true,
 

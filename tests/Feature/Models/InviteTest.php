@@ -1,6 +1,7 @@
 <?php
 
 use Carbon\Carbon;
+use Rubik\LaravelInvite\Facades\LaravelInvite;
 use Rubik\LaravelInvite\Models\Invite;
 use Rubik\LaravelInvite\Tests\TestSupport\Models\TestModel;
 use Rubik\LaravelInvite\Tests\TestSupport\Models\User;
@@ -15,8 +16,6 @@ it('can return specific type of invites', function ($data, $value) {
     Invite::factory()->declined()->create();
     Invite::factory()->declined()->create();
     Invite::factory()->declined()->create();
-
-    dd(Invite::all()->toArray());
 
     expect(Invite::$data()->count())->toBe($value);
     expect(Invite::count())->toBe(7);
@@ -117,11 +116,16 @@ it('can be declined', function () {
     expect($invite->refresh()->declined_at)->toBe(Carbon::now()->format('Y-m-d H:i:s'));
 });
 
-
-//it('can make invite', function () {
+//it('test', function () {
 //
-////    \Rubik\LaravelInvite\Models\InviteTest::makeTest('rroni.nela@gmail.com');
-////
-////    dd(Invite::all());
+//    LaravelInvite::referer(User::factory()->create())->invitee(User::class)->expireAt('2022-05-10 22:22:30')->make();
+//    LaravelInvite::to('test@gmail.com')->referer(User::factory()->create())->invitee(User::class)->make();
 //
+//    dd(Invite::all()->toArray());
+//
+//
+//    expect(Invite::count())->toBe(1);
+//
+////    expect(\Rubik\LaravelInvite\Facades\LaravelInvite::to('test@gmail.com')->to)->toBe('test');
 //});
+

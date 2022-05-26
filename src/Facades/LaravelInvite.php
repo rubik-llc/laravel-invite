@@ -11,6 +11,6 @@ class LaravelInvite extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'laravel-invite';
+        return \Rubik\LaravelInvite\LaravelInvite::class;
     }
 }

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Rubik\LaravelInvite\Enums\State;
+use Rubik\LaravelInvite\Facades\LaravelInvite;
 
 class Invite extends Model
 {
@@ -106,19 +107,6 @@ class Invite extends Model
         return !$this->isAccepted() && !$this->isDeclined() && Carbon::parse($this->expires_at) >= Carbon::now();
     }
 
-//    public static function make(string $email, Model $referer = null, Model $invitee = null, int|string|Carbon $expire = null)
-//    {
-//        $user = User::find(1);
-//        Invite::to('email')->referer(auth()->user())->invitee($user)->expireIn()->expireAt()
-//
-//        self::create([
-//            'email' => $email,
-//            'token' => 'askjldhjaskhdajskldaskjdhasd',
-//            'expires_at' => Carbon::now(),
-//        ]);
-//    }
-
-
     /**
      * Accept an invitation
      *
@@ -165,4 +153,5 @@ class Invite extends Model
             default => Attribute::make(get: null)
         };
     }
+
 }
