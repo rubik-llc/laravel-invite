@@ -22,5 +22,4 @@ trait CanInvite
     {
         Invite::to($email)->referer($this)->make();
     }
-
 }

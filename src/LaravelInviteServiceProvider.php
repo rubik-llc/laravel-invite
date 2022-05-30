@@ -28,12 +28,10 @@ class LaravelInviteServiceProvider extends PackageServiceProvider
         $this->app->singleton('laravel-invite', function () {
             return new Invite();
         });
-
     }
 
     public function provides(): array
     {
         return ['laravel-invite'];
     }
-
 }

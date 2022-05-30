@@ -2,14 +2,14 @@
 
 namespace Rubik\LaravelInvite\Events;
 
-
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Rubik\LaravelInvite\Models\Invite;
 
 class InvitationCreated
 {
-    use Dispatchable, SerializesModels;
+    use Dispatchable;
+    use SerializesModels;
 
     public Invite $invitation;
 
@@ -21,5 +21,4 @@ class InvitationCreated
     {
         $this->invitation = $invitation;
     }
-
 }

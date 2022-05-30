@@ -113,7 +113,7 @@ class Invite extends Model
      */
     public function isExpired(): bool
     {
-        return !$this->isAccepted() && !$this->isDeclined() && Carbon::parse($this->expires_at) < Carbon::now();
+        return ! $this->isAccepted() && ! $this->isDeclined() && Carbon::parse($this->expires_at) < Carbon::now();
     }
 
     /**
@@ -123,7 +123,7 @@ class Invite extends Model
      */
     public function isAccepted(): bool
     {
-        return !!$this->accepted_at;
+        return ! ! $this->accepted_at;
     }
 
     /**
@@ -133,7 +133,7 @@ class Invite extends Model
      */
     public function isDeclined(): bool
     {
-        return !!$this->declined_at;
+        return ! ! $this->declined_at;
     }
 
     /**
@@ -143,7 +143,7 @@ class Invite extends Model
      */
     public function isPending(): bool
     {
-        return !$this->isAccepted() && !$this->isDeclined() && Carbon::parse($this->expires_at) >= Carbon::now();
+        return ! $this->isAccepted() && ! $this->isDeclined() && Carbon::parse($this->expires_at) >= Carbon::now();
     }
 
     /**
@@ -153,7 +153,9 @@ class Invite extends Model
      */
     public function accept(): bool
     {
-        if ($this->isExpired()) return false;
+        if ($this->isExpired()) {
+            return false;
+        }
 
         $this->update([
             'accepted_at' => Carbon::now(),
@@ -171,7 +173,9 @@ class Invite extends Model
      */
     public function decline(): bool
     {
-        if ($this->isExpired()) return false;
+        if ($this->isExpired()) {
+            return false;
+        }
 
         $this->update([
             'declined_at' => Carbon::now(),
@@ -179,7 +183,9 @@ class Invite extends Model
 
         InvitationDeclined::dispatch($this);
 
-        if (config('invite.delete_on_decline')) $this->delete();
+        if (config('invite.delete_on_decline')) {
+            $this->delete();
+        }
 
         return true;
     }
@@ -213,10 +219,10 @@ class Invite extends Model
     protected function state(): Attribute
     {
         return match (true) {
-            $this->isAccepted() => Attribute::make(get: fn() => State::ACCEPTED),
-            $this->isDeclined() => Attribute::make(get: fn() => State::DECLINED),
-            $this->isExpired() => Attribute::make(get: fn() => State::EXPIRED),
-            $this->isPending() => Attribute::make(get: fn() => State::PENDING),
+            $this->isAccepted() => Attribute::make(get: fn () => State::ACCEPTED),
+            $this->isDeclined() => Attribute::make(get: fn () => State::DECLINED),
+            $this->isExpired() => Attribute::make(get: fn () => State::EXPIRED),
+            $this->isPending() => Attribute::make(get: fn () => State::PENDING),
             default => Attribute::make(get: null)
         };
     }

@@ -116,7 +116,7 @@ class Invite
      */
     public function isValid(): bool
     {
-        return !$this->model::pending()->where('email', $this->to)->exists();
+        return ! $this->model::pending()->where('email', $this->to)->exists();
     }
 
     /**
@@ -124,7 +124,9 @@ class Invite
      */
     public function getRefererKey(): mixed
     {
-        if (isset($this->referer)) return $this->referer->getKey();
+        if (isset($this->referer)) {
+            return $this->referer->getKey();
+        }
 
         return null;
     }
@@ -134,7 +136,9 @@ class Invite
      */
     public function getRefererClass(): ?string
     {
-        if (isset($this->referer)) return get_class($this->referer);
+        if (isset($this->referer)) {
+            return get_class($this->referer);
+        }
 
         return null;
     }
@@ -144,7 +148,9 @@ class Invite
      */
     public function getInviteeKey(): mixed
     {
-        if (isset($this->invitee) && $this->invitee instanceof Model) return $this->invitee->getKey();
+        if (isset($this->invitee) && $this->invitee instanceof Model) {
+            return $this->invitee->getKey();
+        }
 
         return null;
     }
@@ -154,7 +160,9 @@ class Invite
      */
     public function getInviteeClass(): ?string
     {
-        if (isset($this->invitee) && $this->invitee instanceof Model) return get_class($this->invitee);
+        if (isset($this->invitee) && $this->invitee instanceof Model) {
+            return get_class($this->invitee);
+        }
 
         return $this->invitee ?? null;
     }
@@ -230,19 +238,19 @@ class Invite
      */
     public function validate(): void
     {
-        if (!isset($this->to)) {
+        if (! isset($this->to)) {
             throw EmailNotProvidedException::make();
         }
 
-        if (!$this->isValid()) {
+        if (! $this->isValid()) {
             throw EmailNotValidException::make();
         }
     }
 
     public function __call(string $method, array $parameters)
     {
-        $instance = new $this->model;
+        $instance = new $this->model();
+
         return $instance->$method(...$parameters);
     }
-
 }

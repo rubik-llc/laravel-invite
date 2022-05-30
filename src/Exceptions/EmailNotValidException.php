@@ -4,7 +4,6 @@ namespace Rubik\LaravelInvite\Exceptions;
 
 use Exception;
 
-
 class EmailNotValidException extends Exception
 {
     /**
