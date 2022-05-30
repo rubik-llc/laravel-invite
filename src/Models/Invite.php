@@ -27,6 +27,18 @@ class Invite extends Model
     ];
 
     /**
+     * Get invite based on token
+     *
+     * @param Builder $query
+     * @param $token
+     * @return Model|null
+     */
+    public function scopeWithToken(Builder $query, $token): ?Model
+    {
+        return $query->where('token', $token)->firstOrFail();
+    }
+
+    /**
      * Get all pending invites
      *
      * @param Builder $query
@@ -86,24 +98,44 @@ class Invite extends Model
         return $this->morphTo();
     }
 
+    /**
+     * Check if an invitation is expired
+     *
+     * @return bool
+     */
     public function isExpired(): bool
     {
-        return ! $this->isAccepted() && ! $this->isDeclined() && Carbon::parse($this->expires_at) < Carbon::now();
+        return !$this->isAccepted() && !$this->isDeclined() && Carbon::parse($this->expires_at) < Carbon::now();
     }
 
+    /**
+     * Check if an invitation is accepted
+     *
+     * @return bool
+     */
     public function isAccepted(): bool
     {
-        return ! ! $this->accepted_at;
+        return !!$this->accepted_at;
     }
 
+    /**
+     * Check if an invitation is declined
+     *
+     * @return bool
+     */
     public function isDeclined(): bool
     {
-        return ! ! $this->declined_at;
+        return !!$this->declined_at;
     }
 
+    /**
+     * Check if an invitation is pending
+     *
+     * @return bool
+     */
     public function isPending(): bool
     {
-        return ! $this->isAccepted() && ! $this->isDeclined() && Carbon::parse($this->expires_at) >= Carbon::now();
+        return !$this->isAccepted() && !$this->isDeclined() && Carbon::parse($this->expires_at) >= Carbon::now();
     }
 
     /**
@@ -113,15 +145,13 @@ class Invite extends Model
      */
     public function accept(): bool
     {
-        if ($this->isPending()) {
-            $this->update([
-                'accepted_at' => Carbon::now(),
-            ]);
+        if ($this->isExpired()) return false;
 
-            return true;
-        }
+        $this->update([
+            'accepted_at' => Carbon::now(),
+        ]);
 
-        return false;
+        return true;
     }
 
     /**
@@ -131,24 +161,50 @@ class Invite extends Model
      */
     public function decline(): bool
     {
-        if ($this->isPending()) {
-            $this->update([
-                'declined_at' => Carbon::now(),
-            ]);
+        if ($this->isExpired()) return false;
 
-            return true;
-        }
+        $this->update([
+            'declined_at' => Carbon::now(),
+        ]);
 
-        return false;
+        if (config('invite.delete_on_decline')) $this->delete();
+
+        return true;
     }
 
+    /**
+     * Update the expiration date of an invitation
+     *
+     * @param Carbon|string $date
+     * @return bool
+     */
+    public function expireAt(Carbon|string $date): bool
+    {
+        if ($date instanceof Carbon) {
+            $expires_at = $date;
+        } else {
+            $expires_at = Carbon::parse($date);
+        }
+
+        $this->update([
+            'expires_at' => $expires_at,
+        ]);
+
+        return true;
+    }
+
+    /**
+     * The state of an invitation
+     *
+     * @return Attribute
+     */
     protected function state(): Attribute
     {
         return match (true) {
-            $this->isAccepted() => Attribute::make(get: fn () => State::ACCEPTED),
-            $this->isDeclined() => Attribute::make(get: fn () => State::DECLINED),
-            $this->isExpired() => Attribute::make(get: fn () => State::EXPIRED),
-            $this->isPending() => Attribute::make(get: fn () => State::PENDING),
+            $this->isAccepted() => Attribute::make(get: fn() => State::ACCEPTED),
+            $this->isDeclined() => Attribute::make(get: fn() => State::DECLINED),
+            $this->isExpired() => Attribute::make(get: fn() => State::EXPIRED),
+            $this->isPending() => Attribute::make(get: fn() => State::PENDING),
             default => Attribute::make(get: null)
         };
     }

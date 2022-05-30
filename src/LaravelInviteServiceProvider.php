@@ -22,4 +22,18 @@ class LaravelInviteServiceProvider extends PackageServiceProvider
             ->hasMigration('create_laravel-invite_table')
             ->hasCommand(LaravelInviteCommand::class);
     }
+
+    public function registeringPackage()
+    {
+        $this->app->singleton('laravel-invite', function () {
+            return new Invite();
+        });
+
+    }
+
+    public function provides(): array
+    {
+        return ['laravel-invite'];
+    }
+
 }

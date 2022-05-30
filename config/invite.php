@@ -15,7 +15,38 @@ return [
 
     'invite_model' => \Rubik\LaravelInvite\Models\Invite::class,
 
-    'delete_on_decline' => true,
+    /*
+    |--------------------------------------------------------------------------
+    | Delete on decline
+    |--------------------------------------------------------------------------
+    |
+    | When this option is enabled, whenever an invitation is declined it will automatically
+    | be deleted.
+    |
+    */
+
+    'delete_on_decline' => false,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Unit
+    |--------------------------------------------------------------------------
+    |
+    | The unit of the values.
+    | This package uses Carbon for date and time related calculations, therefore
+    | the value of this option should be only values that Carbon accepts.
+    | e.g: seconds, minutes, hours, days, weeks, months, years, etc.
+    |
+    */
+
+    'unit' => 'hours',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Expire
+    |--------------------------------------------------------------------------
+    |
+    */
 
     'expire' => [
 

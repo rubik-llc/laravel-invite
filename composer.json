@@ -62,7 +62,7 @@
                 "Rubik\\LaravelInvite\\LaravelInviteServiceProvider"
             ],
             "aliases": {
-                "LaravelInvite": "Rubik\\LaravelInvite\\Facades\\LaravelInvite"
+                "Invite": "Rubik\\LaravelInvite\\Facades\\Invite"
             }
         }
     },

@@ -6,12 +6,19 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class LaravelInvite
+class Invite
 {
+    /**
+     * Invite model
+     *
+     * @var string
+     */
+    protected string $model;
+
     /**
      * @var string
      */
-    public string $to;
+    protected string $to;
 
     /**
      * @var Carbon
@@ -28,10 +35,14 @@ class LaravelInvite
      */
     public Model|string $invitee;
 
+    public function __construct()
+    {
+        $this->model = config('invite.invite_model');
+    }
 
     /**
      * @param string $email
-     * @return LaravelInvite
+     * @return Invite
      */
     public function to(string $email): static
     {
@@ -63,19 +74,21 @@ class LaravelInvite
     }
 
     /**
-     * @param int $hours
-     * @return LaravelInvite
+     * @param int $value
+     * @param $unit
+     * @return Invite
      */
-    public function expireIn(int $hours): static
+    public function expireIn(int $value, $unit = null): static
     {
-        $this->expires_at = Carbon::now()->addHours($hours);
+        $unit = $unit ?: config('invite.unit');
+        $this->expires_at = Carbon::now()->add($value, $unit);
 
         return $this;
     }
 
     /**
      * @param Carbon|string $date
-     * @return LaravelInvite
+     * @return Invite
      */
     public function expireAt(Carbon|string $date): static
     {
@@ -101,9 +114,7 @@ class LaravelInvite
      */
     public function isValid(): bool
     {
-        $inviteModel = config('invite.invite_model');
-
-        return !$inviteModel::pending()->where('email', $this->to)->exists();
+        return !$this->model::pending()->where('email', $this->to)->exists();
     }
 
     /**
@@ -151,8 +162,72 @@ class LaravelInvite
      */
     public function make()
     {
-        $inviteModel = config('invite.invite_model');
+        $this->validate();
 
+        $invite = $this->model::create([
+            'email' => $this->to,
+            'token' => $this->generateToken(),
+            'expires_at' => $this->expires_at ?? Carbon::now()->add(config('invite.expire.after'), config('invite.unit')),
+            'referable_id' => $this->getRefererKey(),
+            'referable_type' => $this->getRefererClass(),
+            'invitable_id' => $this->getInviteeKey(),
+            'invitable_type' => $this->getInviteeClass(),
+        ]);
+
+        $this->forgetAll();
+
+        return $invite;
+    }
+
+    /**
+     * @return void
+     */
+    public function forgetAll(): void
+    {
+        $this->forgetTo();
+        $this->forgetExpiresAt();
+        $this->forgetReferer();
+        $this->forgetInvitee();
+    }
+
+    /**
+     * @return void
+     */
+    public function forgetTo(): void
+    {
+        unset($this->to);
+    }
+
+    /**
+     * @return void
+     */
+    public function forgetExpiresAt(): void
+    {
+        unset($this->expires_at);
+    }
+
+    /**
+     * @return void
+     */
+    public function forgetReferer(): void
+    {
+        unset($this->referer);
+    }
+
+    /**
+     * @return void
+     */
+    public function forgetInvitee(): void
+    {
+        unset($this->invitee);
+    }
+
+    /**
+     * @return void
+     * @throws \Exception
+     */
+    public function validate(): void
+    {
         if (!isset($this->to)) {
             throw new \Exception('You need to provide an email!');
         }
@@ -160,16 +235,12 @@ class LaravelInvite
         if (!$this->isValid()) {
             throw new \Exception('Email is not valid!');
         }
+    }
 
-        return $inviteModel::create([
-            'email' => $this->to,
-            'token' => $this->generateToken(),
-            'expires_at' => $this->expires_at ?? Carbon::now()->addHours(config('invite.expire.after')),
-            'referable_id' => $this->getRefererKey(),
-            'referable_type' => $this->getRefererClass(),
-            'invitable_id' => $this->getInviteeKey(),
-            'invitable_type' => $this->getInviteeClass(),
-        ]);
+    public function __call(string $method, array $parameters)
+    {
+        $instance = new $this->model;
+        return $instance->$method(...$parameters);
     }
 
 }

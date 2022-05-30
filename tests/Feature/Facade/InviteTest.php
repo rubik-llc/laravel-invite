@@ -1,7 +1,7 @@
 <?php
 
 use Carbon\Carbon;
-use Rubik\LaravelInvite\Models\Invite;
+use Rubik\LaravelInvite\Facades\Invite;
 use Rubik\LaravelInvite\Tests\TestSupport\Models\TestModel;
 use Rubik\LaravelInvite\Tests\TestSupport\Models\User;
 use function Spatie\PestPluginTestTime\testTime;
@@ -123,3 +123,11 @@ it('can be declined', function () {
 });
 
 
+it('test', function () {
+
+//    Invite::factory()->pending()->create();
+
+    Invite::to('rroni.nela@gmail.com')->expireIn(5)->make();
+
+    dd(Invite::first());
+});
