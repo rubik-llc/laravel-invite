@@ -1,6 +1,10 @@
 <?php
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Event;
+use Rubik\LaravelInvite\Events\InvitationCreated;
+use Rubik\LaravelInvite\Exceptions\EmailNotProvidedException;
+use Rubik\LaravelInvite\Exceptions\EmailNotValidException;
 use Rubik\LaravelInvite\Facades\Invite;
 use Rubik\LaravelInvite\Tests\TestSupport\Models\TestModel;
 use Rubik\LaravelInvite\Tests\TestSupport\Models\User;
@@ -123,11 +127,29 @@ it('can be declined', function () {
 });
 
 
-it('test', function () {
+it('will fire an event when an invitation is made', function () {
+    Event::fake();
 
-//    Invite::factory()->pending()->create();
+    $invite = Invite::to('test@email.com')->make();
 
-    Invite::to('rroni.nela@gmail.com')->expireIn(5)->make();
+    Event::assertDispatched(InvitationCreated::class);
 
-    dd(Invite::first());
+    Event::assertDispatched(function (InvitationCreated $event) use ($invite) {
+        return $event->invitation->id === $invite->id;
+    });
 });
+
+it('will not allow to make an invitation without providing an email', function () {
+
+    Invite::make();
+
+})->throws(EmailNotProvidedException::class);
+
+
+it('will not allow to make an invitation if there is already an invitation pending with the given email', function () {
+
+    $invite = Invite::factory()->pending()->create();
+
+    Invite::to($invite->email)->make();
+
+})->throws(EmailNotValidException::class);

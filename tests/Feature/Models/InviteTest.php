@@ -1,6 +1,9 @@
 <?php
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Event;
+use Rubik\LaravelInvite\Events\InvitationAccepted;
+use Rubik\LaravelInvite\Events\InvitationDeclined;
 use Rubik\LaravelInvite\Models\Invite;
 use Rubik\LaravelInvite\Tests\TestSupport\Models\TestModel;
 use Rubik\LaravelInvite\Tests\TestSupport\Models\User;
@@ -120,6 +123,48 @@ it('can be declined', function () {
 
     $invite->decline();
     expect($invite->refresh()->declined_at)->toBe(Carbon::now()->format('Y-m-d H:i:s'));
+});
+
+it('can change the expiration date', function ($data, $value) {
+    testTime()->freeze();
+
+    $invite = Invite::factory()->create();
+
+    $invite->expireAt($data);
+    expect($invite->refresh()->expires_at)->toBe($value);
+
+})->with([
+    'date as string' => ['2022-03-03', '2022-03-03 00:00:00'],
+    'date and time as string' => ['2022-03-05 11:45:26', '2022-03-05 11:45:26'],
+    'date as carbon instance' => [fn() => Carbon::now()->addHours(3), fn() => Carbon::now()->addHours(3)->format('Y-m-d H:i:s')],
+]);
+
+it('will fire an event when an invitation is accepted', function () {
+    Event::fake();
+
+    $invite = Invite::factory()->pending()->create();
+
+    $invite->accept();
+
+    Event::assertDispatched(InvitationAccepted::class);
+
+    Event::assertDispatched(function (InvitationAccepted $event) use ($invite) {
+        return $event->invitation->id === $invite->id;
+    });
+});
+
+it('will fire an event when an invitation is declined', function () {
+    Event::fake();
+
+    $invite = Invite::factory()->pending()->create();
+
+    $invite->decline();
+
+    Event::assertDispatched(InvitationDeclined::class);
+
+    Event::assertDispatched(function (InvitationDeclined $event) use ($invite) {
+        return $event->invitation->id === $invite->id;
+    });
 });
 
 

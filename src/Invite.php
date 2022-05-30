@@ -5,6 +5,8 @@ namespace Rubik\LaravelInvite;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Rubik\LaravelInvite\Exceptions\EmailNotProvidedException;
+use Rubik\LaravelInvite\Exceptions\EmailNotValidException;
 
 class Invite
 {
@@ -164,7 +166,7 @@ class Invite
     {
         $this->validate();
 
-        $invite = $this->model::create([
+        $invitation = $this->model::create([
             'email' => $this->to,
             'token' => $this->generateToken(),
             'expires_at' => $this->expires_at ?? Carbon::now()->add(config('invite.expire.after'), config('invite.unit')),
@@ -176,7 +178,7 @@ class Invite
 
         $this->forgetAll();
 
-        return $invite;
+        return $invitation;
     }
 
     /**
@@ -229,11 +231,11 @@ class Invite
     public function validate(): void
     {
         if (!isset($this->to)) {
-            throw new \Exception('You need to provide an email!');
+            throw EmailNotProvidedException::make();
         }
 
         if (!$this->isValid()) {
-            throw new \Exception('Email is not valid!');
+            throw EmailNotValidException::make();
         }
     }
 

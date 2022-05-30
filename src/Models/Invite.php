@@ -11,6 +11,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Rubik\LaravelInvite\Enums\State;
+use Rubik\LaravelInvite\Events\InvitationAccepted;
+use Rubik\LaravelInvite\Events\InvitationCreated;
+use Rubik\LaravelInvite\Events\InvitationDeclined;
+use Rubik\LaravelInvite\Events\InvitationDeleted;
 
 class Invite extends Model
 {
@@ -24,6 +28,10 @@ class Invite extends Model
 
     protected $appends = [
         'state',
+    ];
+    protected $dispatchesEvents = [
+        'created' => InvitationCreated::class,
+        'deleted' => InvitationDeleted::class,
     ];
 
     /**
@@ -151,6 +159,8 @@ class Invite extends Model
             'accepted_at' => Carbon::now(),
         ]);
 
+        InvitationAccepted::dispatch($this);
+
         return true;
     }
 
@@ -166,6 +176,8 @@ class Invite extends Model
         $this->update([
             'declined_at' => Carbon::now(),
         ]);
+
+        InvitationDeclined::dispatch($this);
 
         if (config('invite.delete_on_decline')) $this->delete();
 
