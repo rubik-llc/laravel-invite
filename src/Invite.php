@@ -23,17 +23,17 @@ class Invite
     /**
      * @var Carbon
      */
-    public Carbon $expires_at;
+    protected Carbon $expires_at;
 
     /**
      * @var Model
      */
-    public Model $referer;
+    protected Model $referer;
 
     /**
      * @var string|Model
      */
-    public Model|string $invitee;
+    protected Model|string $invitee;
 
     public function __construct()
     {
