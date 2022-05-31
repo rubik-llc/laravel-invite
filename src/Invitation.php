@@ -116,7 +116,7 @@ class Invitation
      */
     public function isValid(): bool
     {
-        return !$this->model::pending()->where('email', $this->to)->exists();
+        return ! $this->model::pending()->where('email', $this->to)->exists();
     }
 
     /**
@@ -238,11 +238,11 @@ class Invitation
      */
     public function validate(): void
     {
-        if (!isset($this->to)) {
+        if (! isset($this->to)) {
             throw EmailNotProvidedException::make();
         }
 
-        if (!$this->isValid()) {
+        if (! $this->isValid()) {
             throw EmailNotValidException::make();
         }
     }
