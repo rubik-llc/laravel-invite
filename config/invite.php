@@ -4,16 +4,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Invite class
+    | Invitation class
     |--------------------------------------------------------------------------
     |
-    | The invite class that should be used to store and retrieve the invites.
+    | The invite class that should be used to store and retrieve the invitations.
     | If you specify a different model class, make sure that model extends the default
-    | Invite model that is shipped with this package.
+    | Invitation model that is shipped with this package.
     |
     */
 
-    'invite_model' => \Rubik\LaravelInvite\Models\Invite::class,
+    'invitation_model' => \Rubik\LaravelInvite\Models\Invitation::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -45,24 +45,23 @@ return [
     |--------------------------------------------------------------------------
     | Expire
     |--------------------------------------------------------------------------
+    | The default value of when to expire an invitation after its created. It uses
+    | the units that are specified above.
+    |
+    | If the delete.auto value is set to true, it enables a scheduler that executes
+    | a command every hour which deletes all invitations that have surpassed the amount
+    | of time given in delete.after
     |
     */
-
     'expire' => [
 
         'after' => 48,
 
         'delete' => [
-            'auto' => true,
+            'auto' => false,
             'after' => 48,
         ],
 
-        //duhet me kqyr apet
-        're-invite' => [
-//            'event' => null,
-            'auto' => true,
-            'after' => 24,
-        ]
     ],
 
 ];

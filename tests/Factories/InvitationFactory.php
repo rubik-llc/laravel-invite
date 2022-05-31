@@ -4,16 +4,16 @@ namespace Rubik\LaravelInvite\Tests\Factories;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Rubik\LaravelInvite\Models\Invite;
+use Rubik\LaravelInvite\Models\Invitation;
 
-class InviteFactory extends Factory
+class InvitationFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Invite::class;
+    protected $model = Invitation::class;
 
     /**
      * Define the model's default state.

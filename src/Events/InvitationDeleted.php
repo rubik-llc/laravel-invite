@@ -4,20 +4,20 @@ namespace Rubik\LaravelInvite\Events;
 
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Rubik\LaravelInvite\Models\Invite;
+use Rubik\LaravelInvite\Models\Invitation;
 
 class InvitationDeleted
 {
     use Dispatchable;
     use SerializesModels;
 
-    public Invite $invitation;
+    public Invitation $invitation;
 
     /**
      *
      * @return void
      */
-    public function __construct(Invite $invitation)
+    public function __construct(Invitation $invitation)
     {
         $this->invitation = $invitation;
     }

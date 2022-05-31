@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 use Rubik\LaravelInvite\Exceptions\EmailNotProvidedException;
 use Rubik\LaravelInvite\Exceptions\EmailNotValidException;
 
-class Invite
+class Invitation
 {
     /**
      * Invite model
@@ -39,7 +39,7 @@ class Invite
 
     public function __construct()
     {
-        $this->model = config('invite.invite_model');
+        $this->model = config('invite.invitation_model');
     }
 
     /**
@@ -116,7 +116,7 @@ class Invite
      */
     public function isValid(): bool
     {
-        return ! $this->model::pending()->where('email', $this->to)->exists();
+        return !$this->model::pending()->where('email', $this->to)->exists();
     }
 
     /**
@@ -238,11 +238,11 @@ class Invite
      */
     public function validate(): void
     {
-        if (! isset($this->to)) {
+        if (!isset($this->to)) {
             throw EmailNotProvidedException::make();
         }
 
-        if (! $this->isValid()) {
+        if (!$this->isValid()) {
             throw EmailNotValidException::make();
         }
     }

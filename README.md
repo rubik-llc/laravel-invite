@@ -1,6 +1,4 @@
 
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/support-ukraine.svg?t=1" />](https://supportukrainenow.org)
-
 # User invitation system for Laravel application
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/rubik-llc/laravel-invite.svg?style=flat-square)](https://packagist.org/packages/rubik-llc/laravel-invite)
@@ -29,14 +27,14 @@ composer require rubik-llc/laravel-invite
 You can publish and run the migrations with:
 
 ```bash
-php artisan vendor:publish --tag="laravel-invite-migrations"
+php artisan vendor:publish --tag="invite-migrations"
 php artisan migrate
 ```
 
 You can publish the config file with:
 
 ```bash
-php artisan vendor:publish --tag="laravel-invite-config"
+php artisan vendor:publish --tag="invite-config"
 ```
 
 This is the contents of the published config file:
@@ -46,17 +44,15 @@ return [
 ];
 ```
 
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="laravel-invite-views"
-```
-
 ## Usage
 
 ```php
-$laravelInvite = new Rubik\LaravelInvite();
-echo $laravelInvite->echoPhrase('Hello, Rubik!');
+Invite::to('john@email.com')->make();
+
+$user = auth()->user();
+$invitee = User::first();
+
+Invite::to('john@email.com')->referer($user)->invitee($invitee)->make();
 ```
 
 ## Testing

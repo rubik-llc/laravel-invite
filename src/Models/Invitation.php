@@ -10,17 +10,17 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Rubik\LaravelInvite\Enums\State;
+use Rubik\LaravelInvite\Enums\InvitationState;
 use Rubik\LaravelInvite\Events\InvitationAccepted;
 use Rubik\LaravelInvite\Events\InvitationCreated;
 use Rubik\LaravelInvite\Events\InvitationDeclined;
 use Rubik\LaravelInvite\Events\InvitationDeleted;
 
-class Invite extends Model
+class Invitation extends Model
 {
     use HasFactory;
 
-    protected $table = 'invites';
+    protected $table = 'invitations';
 
     protected $primaryKey = 'id';
 
@@ -113,7 +113,7 @@ class Invite extends Model
      */
     public function isExpired(): bool
     {
-        return ! $this->isAccepted() && ! $this->isDeclined() && Carbon::parse($this->expires_at) < Carbon::now();
+        return !$this->isAccepted() && !$this->isDeclined() && Carbon::parse($this->expires_at) < Carbon::now();
     }
 
     /**
@@ -123,7 +123,7 @@ class Invite extends Model
      */
     public function isAccepted(): bool
     {
-        return ! ! $this->accepted_at;
+        return !!$this->accepted_at;
     }
 
     /**
@@ -133,7 +133,7 @@ class Invite extends Model
      */
     public function isDeclined(): bool
     {
-        return ! ! $this->declined_at;
+        return !!$this->declined_at;
     }
 
     /**
@@ -143,7 +143,7 @@ class Invite extends Model
      */
     public function isPending(): bool
     {
-        return ! $this->isAccepted() && ! $this->isDeclined() && Carbon::parse($this->expires_at) >= Carbon::now();
+        return !$this->isAccepted() && !$this->isDeclined() && Carbon::parse($this->expires_at) >= Carbon::now();
     }
 
     /**
@@ -219,10 +219,10 @@ class Invite extends Model
     protected function state(): Attribute
     {
         return match (true) {
-            $this->isAccepted() => Attribute::make(get: fn () => State::ACCEPTED),
-            $this->isDeclined() => Attribute::make(get: fn () => State::DECLINED),
-            $this->isExpired() => Attribute::make(get: fn () => State::EXPIRED),
-            $this->isPending() => Attribute::make(get: fn () => State::PENDING),
+            $this->isAccepted() => Attribute::make(get: fn() => InvitationState::ACCEPTED),
+            $this->isDeclined() => Attribute::make(get: fn() => InvitationState::DECLINED),
+            $this->isPending() => Attribute::make(get: fn() => InvitationState::PENDING),
+            $this->isExpired() => Attribute::make(get: fn() => InvitationState::EXPIRED),
             default => Attribute::make(get: null)
         };
     }

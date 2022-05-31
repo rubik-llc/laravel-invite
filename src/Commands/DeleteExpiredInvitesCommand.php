@@ -7,20 +7,20 @@ use Illuminate\Console\Command;
 
 class DeleteExpiredInvitesCommand extends Command
 {
-    public $signature = 'laravel-invite:delete-expired {--all}';
+    public $signature = 'invite:delete-expired {--all}';
 
-    public $description = 'Deletes all expired invitations based on the given values in the config file';
+    public $description = 'Deletes all expired invitations that have surpassed the amount of time given in the config file';
 
     /**
      * @return int
      */
     public function handle(): int
     {
-        $this->info('Deleting invites...');
+        $this->info('Deleting invitations...');
 
         $this->option('all')
-            ? $this->info('Deleted ' . $this->deleteAllExpired() . ' invites!')
-            : $this->info('Deleted ' . $this->deleteExpiredBasedOnConfig() . ' invites!');
+            ? $this->info('Deleted ' . $this->deleteAllExpired() . ' invitations!')
+            : $this->info('Deleted ' . $this->deleteExpiredBasedOnConfig() . ' invitations!');
 
 
         return self::SUCCESS;
@@ -39,7 +39,7 @@ class DeleteExpiredInvitesCommand extends Command
      */
     public function deleteExpiredBasedOnConfig(): int
     {
-        return config('invite.invite_model')::where('expires_at', '<=', $this->getExpirationDate())->expired()->delete();
+        return config('invite.invitation_model')::where('expires_at', '<=', $this->getExpirationDate())->expired()->delete();
     }
 
     /**
@@ -47,6 +47,6 @@ class DeleteExpiredInvitesCommand extends Command
      */
     public function deleteAllExpired(): int
     {
-        return config('invite.invite_model')::expired()->delete();
+        return config('invite.invitation_model')::expired()->delete();
     }
 }

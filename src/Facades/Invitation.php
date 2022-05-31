@@ -5,11 +5,11 @@ namespace Rubik\LaravelInvite\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \Rubik\LaravelInvite\Invite
- * @see \Rubik\LaravelInvite\Models\Invite
+ * @see \Rubik\LaravelInvite\Invitation
+ * @see \Rubik\LaravelInvite\Models\Invitation
  *
  */
-class Invite extends Facade
+class Invitation extends Facade
 {
     /**
      * @return string

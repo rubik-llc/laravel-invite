@@ -2,7 +2,7 @@
 
 namespace Rubik\LaravelInvite\Enums;
 
-enum State: string
+enum InviteeState: string
 {
     case PENDING = 'Pending';
     case ACCEPTED = 'Accepted';
