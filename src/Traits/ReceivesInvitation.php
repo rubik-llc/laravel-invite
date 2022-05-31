@@ -24,7 +24,7 @@ trait ReceivesInvitation
      */
     public function hasPendingInvitations(): bool
     {
-        return $this->invitations()->pending() > 0;
+        return !!$this->invitations()->pending()->count();
     }
 
     /**
@@ -32,7 +32,7 @@ trait ReceivesInvitation
      */
     public function hasExpiredInvitations(): bool
     {
-        return $this->invitations()->expired() > 0;
+        return !!$this->invitations()->expired()->count();
     }
 
     /**
@@ -40,7 +40,7 @@ trait ReceivesInvitation
      */
     public function hasAcceptedInvitations(): bool
     {
-        return $this->invitations()->accepted() > 0;
+        return !!$this->invitations()->accepted()->count();
     }
 
     /**
@@ -48,7 +48,7 @@ trait ReceivesInvitation
      */
     public function hasDeclinedInvitations(): bool
     {
-        return $this->invitations()->declined() > 0;
+        return !!$this->invitations()->declined()->count();
     }
 
     /**
@@ -61,8 +61,8 @@ trait ReceivesInvitation
         return match (true) {
             $this->hasAcceptedInvitations() => Attribute::make(get: fn() => InviteeState::ACCEPTED),
             $this->hasDeclinedInvitations() => Attribute::make(get: fn() => InviteeState::DECLINED),
-            $this->hasPendingInvitations() => Attribute::make(get: fn() => InviteeState::EXPIRED),
-            $this->hasExpiredInvitations() => Attribute::make(get: fn() => InviteeState::PENDING),
+            $this->hasPendingInvitations() => Attribute::make(get: fn() => InviteeState::PENDING),
+            $this->hasExpiredInvitations() => Attribute::make(get: fn() => InviteeState::EXPIRED),
             default => Attribute::make(get: null)
         };
     }
