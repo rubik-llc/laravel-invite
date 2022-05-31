@@ -59,10 +59,10 @@ trait ReceivesInvitation
     protected function state(): Attribute
     {
         return match (true) {
-            $this->hasAcceptedInvitations() => Attribute::make(get: fn() => InviteeState::ACCEPTED),
-            $this->hasDeclinedInvitations() => Attribute::make(get: fn() => InviteeState::DECLINED),
-            $this->hasPendingInvitations() => Attribute::make(get: fn() => InviteeState::EXPIRED),
-            $this->hasExpiredInvitations() => Attribute::make(get: fn() => InviteeState::PENDING),
+            $this->hasAcceptedInvitations() => Attribute::make(get: fn () => InviteeState::ACCEPTED),
+            $this->hasDeclinedInvitations() => Attribute::make(get: fn () => InviteeState::DECLINED),
+            $this->hasPendingInvitations() => Attribute::make(get: fn () => InviteeState::EXPIRED),
+            $this->hasExpiredInvitations() => Attribute::make(get: fn () => InviteeState::PENDING),
             default => Attribute::make(get: null)
         };
     }
