@@ -226,7 +226,7 @@ class Invite
 
     /**
      * @return void
-     * @throws \Exception
+     * @throws EmailNotProvidedException|EmailNotValidException
      */
     public function validate(): void
     {

@@ -54,7 +54,7 @@ return [
 
         'delete' => [
             'auto' => true,
-            'after' => 24,
+            'after' => 48,
         ],
 
         //duhet me kqyr apet

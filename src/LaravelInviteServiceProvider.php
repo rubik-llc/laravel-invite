@@ -2,7 +2,7 @@
 
 namespace Rubik\LaravelInvite;
 
-use Rubik\LaravelInvite\Commands\LaravelInviteCommand;
+use Rubik\LaravelInvite\Commands\DeleteExpiredInvitesCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -20,7 +20,7 @@ class LaravelInviteServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasViews()
             ->hasMigration('create_laravel-invite_table')
-            ->hasCommand(LaravelInviteCommand::class);
+            ->hasCommand(DeleteExpiredInvitesCommand::class);
     }
 
     public function registeringPackage()

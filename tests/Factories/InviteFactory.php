@@ -74,6 +74,25 @@ class InviteFactory extends Factory
     }
 
     /**
+     * Sets the expired at column to a given date
+     *
+     * @param $date
+     * @return Factory
+     */
+    public function expiresAt($date): Factory
+    {
+        if ($date instanceof Carbon) {
+            return $this->state([
+                'expires_at' => $date,
+            ]);
+        }
+
+        return $this->state([
+            'expires_at' => Carbon::parse($date),
+        ]);
+    }
+
+    /**
      * Sets the expired at column to tomorrow
      *
      * @return Factory
