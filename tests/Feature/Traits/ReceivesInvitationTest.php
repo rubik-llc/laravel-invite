@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Collection;
+use function PHPUnit\Framework\assertInstanceOf;
 use Rubik\LaravelInvite\Enums\InviteeState;
 use Rubik\LaravelInvite\Models\Invitation;
 use Rubik\LaravelInvite\Tests\TestSupport\Models\TestModelInvitee;
-use function PHPUnit\Framework\assertInstanceOf;
 
 beforeEach(function () {
     $this->testModel = createTestModel(TestModelInvitee::class);
@@ -18,7 +18,6 @@ it('has invitations', function () {
 });
 
 it('can determine whether an invitee has specific type of invites', function ($state, $function, $otherStates) {
-
     foreach ($otherStates as $otherState) {
         Invitation::factory()->for($this->testModel, 'invitable')->$otherState()->create();
     }
@@ -36,13 +35,11 @@ it('can determine whether an invitee has specific type of invites', function ($s
 ]);
 
 it('can return the state of an invitee', function ($state, $otherStates) {
-
     foreach ($otherStates as $otherState) {
         Invitation::factory()->for($this->testModel, 'invitable')->$otherState()->create();
     }
 
     expect($this->testModel->state)->toBe($state);
-
 })->with([
     'pending' => [InviteeState::PENDING, ['expired', 'pending', 'expired']],
     'expired' => [InviteeState::EXPIRED, ['expired', 'expired']],
