@@ -14,7 +14,7 @@ trait ReceivesInvitation
      * Defines polymorphic relation between the model that uses this trait and Invitation
      * @return MorphMany
      */
-    public function invitations(): MorphMany
+    public function receivedInvitations(): MorphMany
     {
         return $this->morphMany(config('invite.invitation_model'), 'invitable');
     }
@@ -24,7 +24,7 @@ trait ReceivesInvitation
      */
     public function hasPendingInvitations(): bool
     {
-        return !!$this->invitations()->pending()->count();
+        return !!$this->receivedInvitations()->pending()->count();
     }
 
     /**
@@ -32,7 +32,7 @@ trait ReceivesInvitation
      */
     public function hasExpiredInvitations(): bool
     {
-        return !!$this->invitations()->expired()->count();
+        return !!$this->receivedInvitations()->expired()->count();
     }
 
     /**
@@ -40,7 +40,7 @@ trait ReceivesInvitation
      */
     public function hasAcceptedInvitations(): bool
     {
-        return !!$this->invitations()->accepted()->count();
+        return !!$this->receivedInvitations()->accepted()->count();
     }
 
     /**
@@ -48,7 +48,7 @@ trait ReceivesInvitation
      */
     public function hasDeclinedInvitations(): bool
     {
-        return !!$this->invitations()->declined()->count();
+        return !!$this->receivedInvitations()->declined()->count();
     }
 
     /**

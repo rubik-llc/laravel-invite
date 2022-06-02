@@ -33,8 +33,8 @@ it('can return specific type of invites', function ($data, $value) {
 it('can retrieve an invite by its token', function () {
     $invite = Invitation::factory()->create();
 
-    expect(Invitation::withToken($invite->token)->token)->toBe($invite->token);
-    expect(Invitation::withToken($invite->token))->not()->toBeNull();
+    expect(Invitation::findByToken($invite->token)->token)->toBe($invite->token);
+    expect(Invitation::findByToken($invite->token))->not()->toBeNull();
 });
 
 

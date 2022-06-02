@@ -13,8 +13,8 @@ beforeEach(function () {
 it('has invitations', function () {
     Invitation::factory()->for($this->testModel, 'invitable')->create();
 
-    assertInstanceOf(Collection::class, $this->testModel->invitations);
-    expect($this->testModel->invitations->count())->toBe(1);
+    assertInstanceOf(Collection::class, $this->testModel->receivedInvitations);
+    expect($this->testModel->receivedInvitations->count())->toBe(1);
 });
 
 it('can determine whether an invitee has specific type of invites', function ($state, $function, $otherStates) {

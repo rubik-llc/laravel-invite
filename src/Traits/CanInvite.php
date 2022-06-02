@@ -13,27 +13,17 @@ trait CanInvite
      * Defines polymorphic relation between the model that uses this trait and Invitation
      * @return MorphMany
      */
-    public function invitations(): MorphMany
+    public function referredInvitations(): MorphMany
     {
         return $this->morphMany(config('invite.invitation_model'), 'referable');
     }
 
     /**
-     * @param $email
      * @return mixed
      */
-    public function invite($email): mixed
+    public function invitation(): mixed
     {
-        return Invitation::to($email)->referer($this)->make();
+        return Invitation::referer($this);
     }
 
-    /**
-     * @param $email
-     * @param $model
-     * @return mixed
-     */
-    public function inviteModel($email, $model): mixed
-    {
-        return Invitation::to($email)->referer($this)->invitee($model)->make();
-    }
 }

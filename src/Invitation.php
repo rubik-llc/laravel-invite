@@ -77,8 +77,8 @@ class Invitation
 
     /**
      * @param int $value
-     * @param $unit
-     * @return Invite
+     * @param null $unit
+     * @return Invitation
      */
     public function expireIn(int $value, $unit = null): static
     {
@@ -90,7 +90,7 @@ class Invitation
 
     /**
      * @param Carbon|string $date
-     * @return Invite
+     * @return Invitation
      */
     public function expireAt(Carbon|string $date): static
     {

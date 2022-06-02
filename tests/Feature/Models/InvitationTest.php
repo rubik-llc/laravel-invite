@@ -6,6 +6,8 @@ use Rubik\LaravelInvite\Events\InvitationAccepted;
 use Rubik\LaravelInvite\Events\InvitationDeclined;
 use Rubik\LaravelInvite\Models\Invitation;
 use Rubik\LaravelInvite\Tests\TestSupport\Models\TestModel;
+use Rubik\LaravelInvite\Tests\TestSupport\Models\TestModelInvitee;
+use Rubik\LaravelInvite\Tests\TestSupport\Models\TestModelReferer;
 use Rubik\LaravelInvite\Tests\TestSupport\Models\User;
 use function Spatie\PestPluginTestTime\testTime;
 
@@ -32,8 +34,8 @@ it('can return specific type of invites', function ($data, $value) {
 it('can retrieve an invite by its token', function () {
     $invite = Invitation::factory()->create();
 
-    expect(Invitation::withToken($invite->token)->token)->toBe($invite->token);
-    expect(Invitation::withToken($invite->token))->not()->toBeNull();
+    expect(Invitation::findByToken($invite->token)->token)->toBe($invite->token);
+    expect(Invitation::findByToken($invite->token))->not()->toBeNull();
 });
 
 
@@ -163,4 +165,27 @@ it('will fire an event when an invitation is declined', function () {
     Event::assertDispatched(function (InvitationDeclined $event) use ($invite) {
         return $event->invitation->id === $invite->id;
     });
+});
+
+
+it('can associate an invitee to an invitation', function () {
+    $invitation = Invitation::factory()->pending()->create();
+
+    $invitee = createTestModel(TestModelInvitee::class);
+
+
+    $invitation->invitee($invitee);
+
+    $this->assertInstanceOf(TestModelInvitee::class, $invitation->invitable);
+});
+
+it('can associate a referer to an invitation', function () {
+    $invitation = Invitation::factory()->pending()->create();
+
+    $referer = createTestModel(TestModelReferer::class);
+
+
+    $invitation->referer($referer);
+
+    $this->assertInstanceOf(TestModelReferer::class, $invitation->referable);
 });
