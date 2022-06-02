@@ -1,21 +1,26 @@
 # User invitation system for Laravel application
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/rubik-llc/laravel-invite.svg?style=flat-square)](https://packagist.org/packages/rubik-llc/laravel-invite)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/rubik-llc/laravel-invite/run-tests?label=tests)](https://github.com/rubik-llc/laravel-invite/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/rubik-llc/laravel-invite/Check%20&%20fix%20styling?label=code%20style)](https://github.com/rubik-llc/laravel-invite/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/rubik-llc/laravel-invite.svg?style=flat-square)](https://packagist.org/packages/rubik-llc/laravel-invite)
+[//]: # ([![Latest Version on Packagist]&#40;https://img.shields.io/packagist/v/rubik-llc/laravel-comments.svg&#41;]&#40;https://packagist.org/packages/rubik-llc/laravel-comments&#41;)
+[//]: # ([![Check & fix styling]&#40;https://img.shields.io/github/workflow/status/rubik-llc/laravel-comments/php-cs-fixer.yml?label=check%20and%20fix%20styling&#41;]&#40;https://github.com/rubik-llc/laravel-comments/actions/workflows/php-cs-fixer.yml&#41;)
+![Platform](https://img.shields.io/badge/platform-laravel-red)
 
-A simple invitation system for Eloquent models in your Laravel application.
+[//]: # (![GitHub all releases]&#40;https://img.shields.io/github/downloads/rubik-llc/laravel-comments/total&#41;)
+
+[//]: # ([![GitHub Workflow Status]&#40;https://img.shields.io/github/workflow/status/rubik-llc/laravel-comments/run-tests.yml?label=tests&#41;]&#40;https://github.com/rubik-llc/laravel-comments/actions/workflows/run-tests.yml&#41;)
+
+[//]: # ([![GitHub]&#40;https://img.shields.io/github/license/rubik-llc/laravel-invite&#41;]&#40;LICENSE.md&#41;)
+
+A simple invitation system for Eloquent models in your Laravel application. The package doesn't cover sending emails, views or routing.
 
 ```php
-//Make an invitation
+// Make an invitation
 Invitation::to('test@example.com')->make();
 ```
 
 ```php
 $user = User::find(1);
 
-//Make an invitation directly from an Eloquent Model
+// Make an invitation directly from an Eloquent Model
 $user->invitation()->to('test@example.com')->make();
 ```
 
@@ -24,6 +29,7 @@ $referer = User::find(1);
 
 $invitee = User::find(2);
 
+// Set properties of an invitation
 Invitation::to('test@example.com')
             ->referer($referer)
             ->invitee($invitee)
@@ -32,6 +38,7 @@ Invitation::to('test@example.com')
 ```
 
 ```php
+// Accept an invitation
 Invitation::findByToken('1234')->accept();
 ```
 
@@ -372,14 +379,12 @@ The package dispatches various events
 
 - ### Rubik\LaravelInvite\Events\InvitationDeclined
 
-    This event dispatches whenever the `decline` method is called and successfully executed.
+  This event dispatches whenever the `decline` method is called and successfully executed.
 
 
 - ### Rubik\LaravelInvite\Events\InvitationDeleted
 
-    This event dispatches whenever an Invitation is deleted.
-
-
+  This event dispatches whenever an Invitation is deleted.
 
 ## Testing
 
