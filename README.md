@@ -1,7 +1,9 @@
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/rubik-llc/laravel-invite.svg)](https://packagist.org/packages/rubik-llc/laravel-invite)
-[![Check & fix styling](https://img.shields.io/github/workflow/status/rubik-llc/laravel-invte/php-cs-fixer.yml?label=check%20and%20fix%20styling)](https://github.com/rubik-llc/laravel-invite/actions/workflows/php-cs-fixer.yml)
+#Laravel invite
+
 ![Platform](https://img.shields.io/badge/platform-laravel-red)
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/rubik-llc/laravel-invite/run-tests.yml?label=tests)](https://github.com/rubik-llc/laravel-invite/actions/workflows/run-tests.yml)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/rubik-llc/laravel-invite.svg)](https://packagist.org/packages/rubik-llc/laravel-invite)
+[![Check & fix styling](https://img.shields.io/github/workflow/status/rubik-llc/laravel-invite/Check%20&%20fix%20styling?label=check%20and%20fix%20styling)](https://github.com/rubik-llc/laravel-invite/actions/workflows/php-cs-fixer.yml)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/rubik-llc/laravel-invite/run-tests?label=tests)](https://github.com/rubik-llc/laravel-invite/actions/workflows/run-tests.yml)
 [![GitHub](https://img.shields.io/github/license/rubik-llc/laravel-invite)](LICENSE.md)
 
 [//]: # (![GitHub all releases]&#40;https://img.shields.io/github/downloads/rubik-llc/laravel-invite/total&#41;)
