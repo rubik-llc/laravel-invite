@@ -25,5 +25,4 @@ trait CanInvite
     {
         return Invitation::referer($this);
     }
-
 }

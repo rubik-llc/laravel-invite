@@ -24,7 +24,7 @@ trait ReceivesInvitation
      */
     public function hasPendingInvitations(): bool
     {
-        return !!$this->receivedInvitations()->pending()->count();
+        return ! ! $this->receivedInvitations()->pending()->count();
     }
 
     /**
@@ -32,7 +32,7 @@ trait ReceivesInvitation
      */
     public function hasExpiredInvitations(): bool
     {
-        return !!$this->receivedInvitations()->expired()->count();
+        return ! ! $this->receivedInvitations()->expired()->count();
     }
 
     /**
@@ -40,7 +40,7 @@ trait ReceivesInvitation
      */
     public function hasAcceptedInvitations(): bool
     {
-        return !!$this->receivedInvitations()->accepted()->count();
+        return ! ! $this->receivedInvitations()->accepted()->count();
     }
 
     /**
@@ -48,7 +48,7 @@ trait ReceivesInvitation
      */
     public function hasDeclinedInvitations(): bool
     {
-        return !!$this->receivedInvitations()->declined()->count();
+        return ! ! $this->receivedInvitations()->declined()->count();
     }
 
     /**
@@ -59,10 +59,10 @@ trait ReceivesInvitation
     protected function state(): Attribute
     {
         return match (true) {
-            $this->hasAcceptedInvitations() => Attribute::make(get: fn() => InviteeState::ACCEPTED),
-            $this->hasDeclinedInvitations() => Attribute::make(get: fn() => InviteeState::DECLINED),
-            $this->hasPendingInvitations() => Attribute::make(get: fn() => InviteeState::PENDING),
-            $this->hasExpiredInvitations() => Attribute::make(get: fn() => InviteeState::EXPIRED),
+            $this->hasAcceptedInvitations() => Attribute::make(get: fn () => InviteeState::ACCEPTED),
+            $this->hasDeclinedInvitations() => Attribute::make(get: fn () => InviteeState::DECLINED),
+            $this->hasPendingInvitations() => Attribute::make(get: fn () => InviteeState::PENDING),
+            $this->hasExpiredInvitations() => Attribute::make(get: fn () => InviteeState::EXPIRED),
             default => Attribute::make(get: null)
         };
     }
