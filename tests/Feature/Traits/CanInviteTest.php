@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Collection;
-use Rubik\LaravelInvite\Models\Invitation;
-use Rubik\LaravelInvite\Tests\TestSupport\Models\TestModelReferer;
 use function Pest\Laravel\assertDatabaseHas;
 use function PHPUnit\Framework\assertInstanceOf;
+use Rubik\LaravelInvite\Models\Invitation;
+use Rubik\LaravelInvite\Tests\TestSupport\Models\TestModelReferer;
 
 beforeEach(function () {
     $this->testModel = createTestModel(TestModelReferer::class);
