@@ -1,16 +1,14 @@
-# User invitation system for Laravel application
-
-[//]: # ([![Latest Version on Packagist]&#40;https://img.shields.io/packagist/v/rubik-llc/laravel-comments.svg&#41;]&#40;https://packagist.org/packages/rubik-llc/laravel-comments&#41;)
-[//]: # ([![Check & fix styling]&#40;https://img.shields.io/github/workflow/status/rubik-llc/laravel-comments/php-cs-fixer.yml?label=check%20and%20fix%20styling&#41;]&#40;https://github.com/rubik-llc/laravel-comments/actions/workflows/php-cs-fixer.yml&#41;)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/rubik-llc/laravel-invite.svg)](https://packagist.org/packages/rubik-llc/laravel-invite)
+[![Check & fix styling](https://img.shields.io/github/workflow/status/rubik-llc/laravel-invte/php-cs-fixer.yml?label=check%20and%20fix%20styling)](https://github.com/rubik-llc/laravel-invite/actions/workflows/php-cs-fixer.yml)
 ![Platform](https://img.shields.io/badge/platform-laravel-red)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/rubik-llc/laravel-invite/run-tests.yml?label=tests)](https://github.com/rubik-llc/laravel-invite/actions/workflows/run-tests.yml)
+[![GitHub](https://img.shields.io/github/license/rubik-llc/laravel-invite)](LICENSE.md)
 
-[//]: # (![GitHub all releases]&#40;https://img.shields.io/github/downloads/rubik-llc/laravel-comments/total&#41;)
+[//]: # (![GitHub all releases]&#40;https://img.shields.io/github/downloads/rubik-llc/laravel-invite/total&#41;)
 
-[//]: # ([![GitHub Workflow Status]&#40;https://img.shields.io/github/workflow/status/rubik-llc/laravel-comments/run-tests.yml?label=tests&#41;]&#40;https://github.com/rubik-llc/laravel-comments/actions/workflows/run-tests.yml&#41;)
 
-[//]: # ([![GitHub]&#40;https://img.shields.io/github/license/rubik-llc/laravel-invite&#41;]&#40;LICENSE.md&#41;)
-
-A simple invitation system for Eloquent models in your Laravel application. The package doesn't cover sending emails, views or routing.
+A simple invitation system for Eloquent models in your Laravel application. The package doesn't cover sending emails,
+views or routing.
 
 ```php
 // Make an invitation
@@ -407,6 +405,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 ## Credits
 
 - [Rron Nela](https://github.com/rronik)
+- [Yllndrit Beka](https://github.com/yllndritb)
 - [All Contributors](../../contributors)
 
 ## License
