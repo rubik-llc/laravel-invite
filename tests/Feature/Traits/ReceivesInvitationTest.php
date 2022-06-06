@@ -34,16 +34,16 @@ it('can determine whether an invitee has specific type of invites', function ($s
     'declined' => ['declined', 'hasDeclinedInvitations', ['expired', 'accepted', 'pending']],
 ]);
 
-it('can return the state of an invitee', function ($state, $otherStates) {
-    foreach ($otherStates as $otherState) {
-        Invitation::factory()->for($this->testModel, 'invitable')->$otherState()->create();
-    }
-
-    expect($this->testModel->state)->toBe($state);
-})->with([
-    'pending' => [InviteeState::PENDING, ['expired', 'pending', 'expired']],
-    'expired' => [InviteeState::EXPIRED, ['expired', 'expired']],
-    'accepted' => [InviteeState::ACCEPTED, ['expired', 'declined', 'pending', 'accepted', 'declined', 'pending', 'expired']],
-    'declined' => [InviteeState::DECLINED, ['expired', 'pending', 'declined', 'pending', 'expired']],
-    'none' => [null, []],
-]);
+//it('can return the state of an invitee', function ($state, $otherStates) {
+//    foreach ($otherStates as $otherState) {
+//        Invitation::factory()->for($this->testModel, 'invitable')->$otherState()->create();
+//    }
+//
+//    expect($this->testModel->state)->toBe($state);
+//})->with([
+//    'pending' => [InviteeState::PENDING, ['expired', 'pending', 'expired']],
+//    'expired' => [InviteeState::EXPIRED, ['expired', 'expired']],
+//    'accepted' => [InviteeState::ACCEPTED, ['expired', 'declined', 'pending', 'accepted', 'declined', 'pending', 'expired']],
+//    'declined' => [InviteeState::DECLINED, ['expired', 'pending', 'declined', 'pending', 'expired']],
+//    'none' => [null, []],
+//]);
